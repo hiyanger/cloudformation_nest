@@ -1,0 +1,75 @@
+AWSTemplaeteFormatVersion: "2010-09-09"
+Description: Provision of VPC
+
+Parameters:
+    AZ1:
+      Type: String
+      Description: Use AZ name
+    CIDRBlock:
+      Type: String
+      Description: CIDRBlock of VPC
+    PublicSubnet1CIDR:
+      Type: String
+      Description: CIDRBlock of PublicSubnet1
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref CIDRBlock
+
+  IGW:
+    Type: AWS::EC2::InternetGateway
+    DependsOn: VPC
+
+  IGWAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+         VpcId: !Ref VPC
+         InternetGatewayId: !Ref IGW
+  
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+         VPCId: !Ref VPC
+         AvailabilityZone: !Ref AZ1
+         CidrBlock: !Ref PublicSubnet1CIDR
+         MapPublicIpOnLaunch: true
+         Tags:
+          - Key: Name
+            Value: !Ref AZ1
+  
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref VPC
+  
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: IGWAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref IGW
+  
+  PublicSubnet1RouteTableAssociation:
+    Type:AWS::EC2::Subnet1RouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+
+  NoIngressSecurityGroup:
+    Type:AWS::EC2::SecurityGrouo
+    Properties:
+      GroupName: "no-ingress-sg"
+      GroupDescription: "Security group with no ingress rule"
+      VpcId: !Ref VPC
+
+Outputs:
+     VPCId:
+      Value: !Ref VPC
+      Description: VPC id
+
+    PublicSubnet1Id:
+      Value: !Ref PublicSubnet1
+      Description: Subnet1 id

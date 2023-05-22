@@ -1,11 +1,11 @@
-AWSTemplaeteFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: "2010-09-09"
 Description: Manage myself verification environment
 
 Parameters:
   TemplateVPC:
     Description: VPC template OBject URL
     Type: String
-    Default: 
+    Default: VPCtemplateのURLを記述
 
   TemplateSG:
     Description: SG template Object URL

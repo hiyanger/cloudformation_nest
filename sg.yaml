@@ -1,0 +1,25 @@
+AWSTemplaeteFormatVersion: "2010-09-09"
+Description: Provision of EC2
+
+Parameters:
+  VPCId:
+  Type: String
+  Description: ID for VsssPC.
+
+Resources:
+  SGSshHttp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+         GroupDescription: Allow SSH and HTTP access only MyIP
+         VpcId: !Ref VPCId
+         SecurityGroupEgress:
+          #http
+          - InProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: '0.0.0.0/0'
+
+Outputs:
+  SGSshHttp:
+    Value: !Ref SGSshHttp
+    Description: SGSshHttp id
