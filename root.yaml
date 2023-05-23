@@ -36,11 +36,11 @@ Outputs:
     Description: VOC CIDR Block
 
   PublicSubnet1Id:
-    Value: !GetAtt VPC.Outputs.publicSubnet1Id
+    Value: !GetAtt VPC.Outputs.PublicSubnet1Id
     Description: PublicSubnet1 CIDR Block
 
   SSHHTTPSG:
-    Value: !GetAtt SG.Outputs.SGshHttp
+    Value: !GetAtt SG.Outputs.SGSshHttp
     Description: SG for ssh and http
     
     

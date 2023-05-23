@@ -1,4 +1,4 @@
-AWSTemplaeteFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: "2010-09-09"
 Description: Provision of VPC
 
 Parameters:
@@ -31,18 +31,18 @@ Resources:
   PublicSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
-         VPCId: !Ref VPC
-         AvailabilityZone: !Ref AZ1
-         CidrBlock: !Ref PublicSubnet1CIDR
-         MapPublicIpOnLaunch: true
-         Tags:
-          - Key: Name
-            Value: !Ref AZ1
+      VpcId: !Ref VPC
+      AvailabilityZone: !Ref AZ1
+      CidrBlock: !Ref PublicSubnet1CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Ref AZ1
   
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
-      Properties:
-        VpcId: !Ref VPC
+    Properties:
+      VpcId: !Ref VPC
   
   DefaultPublicRoute:
     Type: AWS::EC2::Route
@@ -53,23 +53,23 @@ Resources:
       GatewayId: !Ref IGW
   
   PublicSubnet1RouteTableAssociation:
-    Type:AWS::EC2::Subnet1RouteTableAssociation
+    Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref PublicRouteTable
       SubnetId: !Ref PublicSubnet1
 
   NoIngressSecurityGroup:
-    Type:AWS::EC2::SecurityGrouo
+    Type: AWS::EC2::SecurityGroup
     Properties:
       GroupName: "no-ingress-sg"
       GroupDescription: "Security group with no ingress rule"
       VpcId: !Ref VPC
 
 Outputs:
-     VPCId:
-      Value: !Ref VPC
-      Description: VPC id
+  VPCId:
+    Value: !Ref VPC
+    Description: VPC id
 
-    PublicSubnet1Id:
-      Value: !Ref PublicSubnet1
-      Description: Subnet1 id
+  PublicSubnet1Id:
+    Value: !Ref PublicSubnet1
+    Description: Subnet1 id

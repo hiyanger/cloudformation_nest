@@ -1,10 +1,10 @@
-AWSTemplaeteFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: "2010-09-09"
 Description: Provision of EC2
 
 Parameters:
   VPCId:
-  Type: String
-  Description: ID for VsssPC.
+    Type: String
+    Description: ID for VsssPC.
 
 Resources:
   SGSshHttp:
@@ -14,9 +14,14 @@ Resources:
          VpcId: !Ref VPCId
          SecurityGroupEgress:
           #http
-          - InProtocol: tcp
+          - IpProtocol: tcp
             FromPort: 80
             ToPort: 80
+            CidrIp: '0.0.0.0/0'
+          #ssh
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
             CidrIp: '0.0.0.0/0'
 
 Outputs:
